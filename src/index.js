@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './assets/index.css';
 import App from './components/App';
 
-import { onSnapshot } from 'mobx-state-tree';
+import { onSnapshot, getSnapshot } from 'mobx-state-tree';
 
 import { WishList } from './models/WishList';
 
@@ -29,13 +29,31 @@ if (localStorage.getItem('wishlistapp')) {
   if (WishList.is(json)) initialState = json;
 }
 
-const wishList = WishList.create(initialState);
+let wishList = WishList.create(initialState);
 
 onSnapshot(wishList, snapshot => {
   localStorage.setItem('wishlistapp', JSON.stringify(snapshot));
 });
 
-ReactDOM.render(<App wishList={wishList} />, document.getElementById('root'));
+function renderApp() {
+  ReactDOM.render(<App wishList={wishList} />, document.getElementById('root'));
+}
+
+renderApp();
+
+if (module.hot) {
+  module.hot.accept(['./components/App'], () => {
+    // new components
+    renderApp();
+  });
+
+  module.hot.accept(['./models/WishList'], () => {
+    // new model definitions
+    const snapshot = getSnapshot(wishList);
+    wishList = WishList.create(snapshot);
+    renderApp();
+  });
+}
 
 /* setInterval(() => {
   wishList.items[0].changePrice(wishList.items[0].price + 1);

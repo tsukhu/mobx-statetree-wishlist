@@ -20,10 +20,14 @@ class WishListItemView extends Component {
         <span>{item.price}</span>
         <span>
           <button onClick={this.onToggleEdit}>
-            <span>✏</span>
+            <span role="img" aria-label="jsx-a11y/accessible-emoji">
+              ✏
+            </span>
           </button>
           <button onClick={item.remove}>
-            <span>❎</span>
+            <span role="img" aria-label="jsx-a11y/accessible-emoji">
+              ❎
+            </span>
           </button>
         </span>
       </li>
@@ -35,10 +39,14 @@ class WishListItemView extends Component {
       <li className="item">
         <WishListItemEdit item={this.state.clone} />
         <button onClick={this.onSaveEdit}>
-          <span>💾</span>
+          <span role="img" aria-label="jsx-a11y/accessible-emoji">
+            💾
+          </span>
         </button>
         <button onClick={this.onCancelEdit}>
-          <span>❎</span>
+          <span role="img" aria-label="jsx-a11y/accessible-emoji">
+            ❎
+          </span>
         </button>
       </li>
     );
