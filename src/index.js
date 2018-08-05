@@ -3,40 +3,52 @@ import ReactDOM from 'react-dom';
 import './assets/index.css';
 import App from './components/App';
 
-import { onSnapshot, getSnapshot } from 'mobx-state-tree';
+import { getSnapshot } from 'mobx-state-tree';
 
-import { WishList } from './models/WishList';
+import { Group } from './models/Group';
 
-let initialState = WishList.create({
-  items: [
-    {
-      name: 'The Notebook',
-      price: 10.31,
-      image:
-        'https://images-na.ssl-images-amazon.com/images/I/51ZXkAJNYWL._AC_US218_.jpg'
+let initialState = {
+  users: {
+    '1': {
+      id: '1',
+      name: 'Sonni',
+      gender: 'f'
     },
-    {
-      name: 'LEGO Mindstorms EV3',
-      price: 349.95,
-      image:
-        'https://images-na.ssl-images-amazon.com/images/I/71CpQw%2BufNL._SL1000_.jpg'
+    '2': {
+      id: '2',
+      name: 'Jennilee',
+      gender: 'f'
+    },
+    '3': {
+      id: '3',
+      name: 'Powell',
+      gender: 'm'
+    },
+    '4': {
+      id: '4',
+      name: 'Jsandye',
+      gender: 'f'
+    },
+    '5': {
+      id: '5',
+      name: 'Kinnie',
+      gender: 'm'
     }
-  ]
-});
+  }
+};
 
-if (localStorage.getItem('wishlistapp')) {
+/* if (localStorage.getItem('wishlistapp')) {
   const json = JSON.parse(localStorage.getItem('wishlistapp'));
   if (WishList.is(json)) initialState = json;
-}
+} */
 
-let wishList = WishList.create(initialState);
-
-onSnapshot(wishList, snapshot => {
+let group = Group.create(initialState);
+/* onSnapshot(wishList, snapshot => {
   localStorage.setItem('wishlistapp', JSON.stringify(snapshot));
-});
+}); */
 
 function renderApp() {
-  ReactDOM.render(<App wishList={wishList} />, document.getElementById('root'));
+  ReactDOM.render(<App group={group} />, document.getElementById('root'));
 }
 
 renderApp();
@@ -47,10 +59,10 @@ if (module.hot) {
     renderApp();
   });
 
-  module.hot.accept(['./models/WishList'], () => {
+  module.hot.accept(['./models/Group'], () => {
     // new model definitions
-    const snapshot = getSnapshot(wishList);
-    wishList = WishList.create(snapshot);
+    const snapshot = getSnapshot(group);
+    group = window.group = Group.create(snapshot);
     renderApp();
   });
 }

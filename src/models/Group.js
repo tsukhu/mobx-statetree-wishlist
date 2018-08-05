@@ -6,9 +6,9 @@ const User = types.model({
   id: types.string,
   name: types.string,
   gender: types.enumeration('gender', ['m', 'f']),
-  WishList: types.optional(WishList, {})
+  wishList: types.optional(WishList, {})
 });
 
 export const Group = types.model({
-  users: types(User)
+  users: types.map(User)
 });
