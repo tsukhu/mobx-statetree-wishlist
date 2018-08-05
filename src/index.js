@@ -7,45 +7,9 @@ import { getSnapshot } from 'mobx-state-tree';
 
 import { Group } from './models/Group';
 
-let initialState = {
-  users: {
-    '1': {
-      id: '1',
-      name: 'Sonni',
-      gender: 'f'
-    },
-    '2': {
-      id: '2',
-      name: 'Jennilee',
-      gender: 'f'
-    },
-    '3': {
-      id: '3',
-      name: 'Powell',
-      gender: 'm'
-    },
-    '4': {
-      id: '4',
-      name: 'Jsandye',
-      gender: 'f'
-    },
-    '5': {
-      id: '5',
-      name: 'Kinnie',
-      gender: 'm'
-    }
-  }
-};
+let initialState = { users: {} };
 
-/* if (localStorage.getItem('wishlistapp')) {
-  const json = JSON.parse(localStorage.getItem('wishlistapp'));
-  if (WishList.is(json)) initialState = json;
-} */
-
-let group = Group.create(initialState);
-/* onSnapshot(wishList, snapshot => {
-  localStorage.setItem('wishlistapp', JSON.stringify(snapshot));
-}); */
+let group = (window.group = Group.create(initialState));
 
 function renderApp() {
   ReactDOM.render(<App group={group} />, document.getElementById('root'));
@@ -66,8 +30,3 @@ if (module.hot) {
     renderApp();
   });
 }
-
-/* setInterval(() => {
-  wishList.items[0].changePrice(wishList.items[0].price + 1);
-}, 1000);
- */

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { clone, getSnapshot, applySnapshot } from 'mobx-state-tree';
+
 import WishListItemEdit from './WishListItemEdit';
 
 class WishListItemView extends Component {
@@ -10,31 +11,40 @@ class WishListItemView extends Component {
   }
 
   render() {
-    const { item } = this.props;
+    const { item, readonly } = this.props;
     return this.state.isEditing ? (
       this.renderEditable()
     ) : (
       <li className="item">
-        {item.image && <img src={item.image} alt={item.image} />}
+        {item.image && (
+          <img
+            src={item.image}
+            aria-label="jsx-a11y/alt-text"
+            alt={item.name}
+          />
+        )}
         <h3>{item.name}</h3>
-        <span>{item.price}</span>
-        <span>
-          <button onClick={this.onToggleEdit}>
-            <span role="img" aria-label="jsx-a11y/accessible-emoji">
-              ✏
-            </span>
-          </button>
-          <button onClick={item.remove}>
-            <span role="img" aria-label="jsx-a11y/accessible-emoji">
-              ❎
-            </span>
-          </button>
-        </span>
+        <span>{item.price} €</span>
+        {!readonly && (
+          <span>
+            <button onClick={this.onToggleEdit}>
+              {' '}
+              <span role="img" aria-label="jsx-a11y/accessible-emoji">
+                ✏
+              </span>
+            </button>
+            <button onClick={item.remove}>
+              <span role="img" aria-label="jsx-a11y/accessible-emoji">
+                ❎
+              </span>
+            </button>
+          </span>
+        )}
       </li>
     );
   }
 
-  renderEditable = () => {
+  renderEditable() {
     return (
       <li className="item">
         <WishListItemEdit item={this.state.clone} />
@@ -50,7 +60,7 @@ class WishListItemView extends Component {
         </button>
       </li>
     );
-  };
+  }
 
   onToggleEdit = () => {
     this.setState({
